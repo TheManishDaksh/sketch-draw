@@ -1,2 +1,2 @@
-# justDraw
+# sketchDrawer
 A draw application
