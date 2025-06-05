@@ -21,6 +21,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "@repo/zod" : "workspace:*"
+    "@repo/zod" : "workspace:*",
+    "@repo/db" : "workspace:*"
   }
 }
