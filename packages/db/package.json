@@ -14,7 +14,7 @@
     "prisma": "^6.9.0"
   },
   "exports": {
-    "./client" : "./src/index.ts"
+    "." : "./src/index.ts"
   },
   "keywords": [],
   "author": "",

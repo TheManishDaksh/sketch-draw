@@ -11,6 +11,6 @@ export const userSignin = z.object({
     password : z.string().min(6).max(20)
 })
 
-export const createUser = z.object({
-    room : z.string().min(3).max(20)
+export const createRoom = z.object({
+    name : z.string().min(3).max(20)
 })
