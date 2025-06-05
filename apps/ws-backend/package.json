@@ -9,7 +9,9 @@
     "dev": "npm run build && npm run dev"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@repo/backend-common" : "workspace:*"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
   "type": "commonjs",
   "dependencies": {
     "@types/ws": "^8.18.1",
+    "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.2"
   }
 }
