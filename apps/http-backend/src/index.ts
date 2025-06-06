@@ -103,6 +103,7 @@ app.post("/room", middleware, async(req, res)=>{
             res.json({
                 message : "room already exist"
             })
+            return;
         }
     } catch (error:any) {
         res.status(403).json({
@@ -131,4 +132,4 @@ app.post("/room", middleware, async(req, res)=>{
     }
 })
 
-app.listen(3001)
+app.listen(3001);
