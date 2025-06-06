@@ -2,12 +2,14 @@ import { createRoom, userSignin, userSignup } from "@repo/zod/types";
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
+import cors from "cors"
 import { middleware } from "./middleware";
-import { prisma } from "@repo/db";
+import { prismaClient } from "@repo/db/client";
 import { JWT_SECRET } from "@repo/backend-common/config";
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.post("/signup", async(req:Request, res:Response)=>{
     const parsedData =  userSignup.safeParse(req.body);
@@ -18,7 +20,7 @@ app.post("/signup", async(req:Request, res:Response)=>{
     }
 
    try {
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await prismaClient.user.findFirst({
         where : {
             username : parsedData.data?.username
         }
@@ -28,7 +30,7 @@ app.post("/signup", async(req:Request, res:Response)=>{
         return;
     }
     const hashedPassword = await bcrypt.hash(parsedData.data?.password ??"", 10)
-     const user = await prisma.user.create({
+     const user = await prismaClient.user.create({
         data : {
             name : parsedData.data?.name || "",
             username : parsedData.data?.username || "",
@@ -43,23 +45,25 @@ app.post("/signup", async(req:Request, res:Response)=>{
    }
 })
 
-app.post("/signin",middleware, async(req: Request, res: Response)=>{
+app.post("/signin", async(req: Request, res: Response)=>{
     const parsedData = userSignin.safeParse(req.body);
     if(!parsedData.success){
         res.status(493).json({
             message : "input error"
         })
+        return;
     }
+    
     try {
-        const user = await prisma.user.findFirst({
+        const user = await prismaClient.user.findFirst({
         where : {
-            username : parsedData.data?.username
+            username : parsedData.data?.username,
         }
     })
     if(!user){
         res.json({
             message : "user not found"
-        })
+        }) 
         return;
     }
     const validatePassword = await bcrypt.compare(parsedData.data?.password ?? "", user.password)
@@ -81,26 +85,47 @@ app.post("/signin",middleware, async(req: Request, res: Response)=>{
     }
 })
 
-app.post("/room", async(req, res)=>{
-    const parsedData = createRoom.safeParse(req.body)
+app.post("/room", middleware, async(req, res)=>{
+    const parsedData = createRoom.safeParse(req.body);
     if(!parsedData.success){
-        res.json({
+        res.status(411).json({
             messages : "input error"
         })
+        return;
     }
     try {
-        const room = await prisma.room.create({
+        const existingRoom = await prismaClient.room.findFirst({
+            where : {
+                slug : parsedData.data.name
+            }
+        })
+        if(existingRoom){
+            res.json({
+                message : "room already exist"
+            })
+        }
+    } catch (error:any) {
+        res.status(403).json({
+            message : "room found error"
+        })
+    }
+
+     //@ts-ignore 
+    const userId = req.userId
+    try {
+        const room = await prismaClient.room.create({
         data : {
-            slug : parsedData.data?.name!,
-            //@ts-ignore
-            adminId : req.userId
+            slug : parsedData.data?.name,
+            adminId : userId
         }
     })
     res.json({
         roomId : room?.id
     })
     } catch (error:any) {
-      res.json({
+        console.log(error);
+        
+      res.status(411).json({
         message : "room can't created"
       })  
     }
