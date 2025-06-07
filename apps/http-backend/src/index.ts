@@ -5,7 +5,7 @@ import Jwt from "jsonwebtoken";
 import cors from "cors"
 import { middleware } from "./middleware";
 import { prismaClient } from "@repo/db/client";
-import { JWT_SECRET } from "@repo/backend-common/config";
+import { JwtSecret } from "@repo/backend-common/config";
 
 const app = express();
 app.use(express.json());
@@ -72,7 +72,7 @@ app.post("/signin", async(req: Request, res: Response)=>{
             message : "password does'nt match"
         })
     }
-    const token = Jwt.sign(user?.username, JWT_SECRET)
+    const token = Jwt.sign(user?.username, JwtSecret)
         res.json({
             userId : user.id,
             name : user.name,
@@ -109,7 +109,7 @@ app.post("/room", middleware, async(req, res)=>{
         res.status(403).json({
             message : "room found error"
         })
-    }
+    }   
 
      //@ts-ignore 
     const userId = req.userId

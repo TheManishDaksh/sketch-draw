@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "@repo/backend-common/config"
+import { JwtSecret } from "@repo/backend-common/config"
 
 export function middleware(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers["authorization"] ?? "";
+    const token = req.headers["authorization"];
     console.log(token);
     
     if (!token) {
@@ -11,7 +11,7 @@ export function middleware(req: Request, res: Response, next: NextFunction) {
         return;
     }
     try {
-        const validate = jwt.verify(token, JWT_SECRET);
+        const validate = jwt.verify(token, JwtSecret);
 
         if (validate) {
             //@ts-ignore

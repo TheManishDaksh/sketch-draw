@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import jwt from "jsonwebtoken"
-import { JWT_SECRET } from "@repo/backend-common/config";
+import { JwtSecret } from "@repo/backend-common/config";
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -24,7 +24,7 @@ wss.on('connection', function connection(ws, request) {
     console.log("token not found");
     return;
   }
-  const validate = jwt.verify(token, JWT_SECRET);
+  const validate = jwt.verify(token, JwtSecret);
 
   if( typeof validate === "string"){
     return ;
@@ -36,7 +36,7 @@ wss.on('connection', function connection(ws, request) {
   const userId = validate.userId ;
 
   if(userId === null){
-    ws.close();
+    ws.close();1
     return;
   }
    users.push({
