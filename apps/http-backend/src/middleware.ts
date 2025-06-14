@@ -4,7 +4,6 @@ import { JwtSecret } from "@repo/backend-common/config"
 
 export function middleware(req: Request, res: Response, next: NextFunction) {
     const token = req.headers["authorization"];
-    console.log(token);
     
     if (!token) {
         res.json("token not found")
