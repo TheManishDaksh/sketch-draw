@@ -72,7 +72,10 @@ app.post("/signin", async (req: Request, res: Response) => {
                 message: "password does'nt match"
             })
         }
-        const token = Jwt.sign(user?.username, JwtSecret)
+        const token = Jwt.sign({username : user?.username,
+                                 id : user?.id,
+                                name : user?.name},
+                                 JwtSecret)
         res.json({
             userId: user.id,
             name: user.name,
@@ -95,7 +98,17 @@ app.post("/room", middleware, async (req, res) => {
     }
     //@ts-ignore 
     const userId = req.userId;
+    
     try {
+        const user = await prismaClient.user.findUnique({
+            where : {
+                id: userId
+            }
+        })
+        if(!user){
+            console.log("user not found");
+            return;
+        }
         const room = await prismaClient.room.create({
             data: {
                 slug: parsedData.data?.name,

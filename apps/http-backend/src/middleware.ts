@@ -9,12 +9,13 @@ export function middleware(req: Request, res: Response, next: NextFunction) {
         res.json("token not found")
         return;
     }
+    
     try {
         const validate = jwt.verify(token, JwtSecret);
-
+        
         if (validate) {
             //@ts-ignore
-            req.userId = validate.id
+            req.userId = validate.id;
             next();
         }
     } catch (error) {
