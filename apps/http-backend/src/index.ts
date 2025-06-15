@@ -125,4 +125,58 @@ app.post("/room", middleware, async (req, res) => {
     }
 })
 
+app.get("/room/:slug", async (req,res)=>{
+    const slug = req.params.slug;
+
+    try{
+        const room = await prismaClient.room.findFirst({
+            where : {
+                slug : slug
+            }
+        })
+        if(!room){
+            console.log("room does not exist");
+            return;
+        }
+        res.json({
+            room
+        })
+    }catch(error:any){
+        console.log("error : " + error);
+        res.status(403).json({
+            message : "this slug does not match any room"
+        })
+    }
+})
+
+app.get("/chat/:roomId", async (req, res)=>{
+    const roomId = Number(req.params.roomId);
+     
+    try{
+        const messages = await prismaClient.chat.findMany({
+            where : {
+                roomId : roomId
+            },
+            orderBy : {
+                id : "desc"
+            },
+            take : 100
+        })
+        if(!messages){
+            console.log("chat not found");
+            return;
+        }
+        res.json({
+            messages
+        })
+    }catch(error : any){
+        res.status(403).json({
+            message : "backend error in getting chats"
+        })
+        res.json({
+            messages : []
+        })
+    }
+})
+
 app.listen(3001);   
