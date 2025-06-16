@@ -144,7 +144,7 @@ app.get("/room/:slug", async (req,res)=>{
     }catch(error:any){
         console.log("error : " + error);
         res.status(403).json({
-            message : "this slug does not match any room"
+            message : "this slug does not match any roomw"
         })
     }
 })
