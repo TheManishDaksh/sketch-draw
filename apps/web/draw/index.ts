@@ -1,3 +1,5 @@
+import axios from "axios";
+import { HTTP_BACKEND } from "../config";
 
 interface Shape {
   type: "rect";
@@ -7,9 +9,9 @@ interface Shape {
   width: number;
 }
 
-export default function InitDraw(canvas: HTMLCanvasElement) {
+export default async function InitDraw(canvas: HTMLCanvasElement, roomId: string) {
 
-  const existingShapes: Shape[] = [];
+  const existingShapes: Shape[] = await getExistingShapes(roomId);
 
   const ctx = canvas?.getContext("2d");
 
@@ -69,4 +71,10 @@ function clearCanvas(
       ctx.strokeRect(shape.x, shape.y, shape.width, shape.height);
     }
   });
+}
+
+async function getExistingShapes(roomId:string){
+    const response  = await axios.get(`${HTTP_BACKEND}/chat/${roomId}`);
+    const messages = response.data.messages;
+    return messages;
 }
