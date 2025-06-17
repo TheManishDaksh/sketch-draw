@@ -1,6 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef} from "react"
+import InitDraw from "../draw";
+
+
 
 export default function Home(){
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -8,31 +11,7 @@ export default function Home(){
   useEffect(()=>{
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas?.getContext("2d");
-    if (!ctx) return;
-    ctx.strokeStyle = "white";
-
-    let clicked = false;
-    let startX = 0;
-    let startY = 0;
-    canvas.addEventListener("mousedown", (e:MouseEvent)=>{
-      clicked = true;
-      startX = e.clientX;
-      startY = e.clientY;
-    })
-
-    canvas.addEventListener("mouseup",(e:MouseEvent)=>{
-      clicked = false;
-    })
-
-    canvas.addEventListener("mousemove", (e:MouseEvent)=>{
-      if(!clicked) return;
-
-      let height = e.clientX - startX;
-      let width = e.clientY - startY;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeRect(startX, startY, height, width )
-    })
+    InitDraw(canvas); 
     
   }, [canvasRef]);
 
