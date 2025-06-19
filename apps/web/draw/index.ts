@@ -1,5 +1,4 @@
-import axios from "axios";
-import { HTTP_BACKEND } from "../config";
+import { getExistingShapes } from "./http-call";
 
 type Shape = {
   type: "rect";
@@ -122,7 +121,7 @@ function clearCanvas(
   existingShapes: Shape[]
 ) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-  existingShapes.forEach((shape) => {
+  existingShapes.map((shape) => {
     if (shape.type === "rect") {
       ctx.strokeRect(shape.x, shape.y, shape.width, shape.height);
     }  else if (shape.type === "circle") {
@@ -134,13 +133,4 @@ function clearCanvas(
   });
 }
 
-async function getExistingShapes(roomId:string){
-    const response  = await axios.get(`${HTTP_BACKEND}/chat/${roomId}`);
-    const messages = response.data.messages;
 
-    const shapes = messages.map((x: {message: string}) => {
-        const messageData = JSON.parse(x.message)
-        return messageData.shape;
-    })
-    return shapes;
-}
