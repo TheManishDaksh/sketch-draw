@@ -9,8 +9,8 @@
 
         useEffect(()=>{
             try{
-            // const token = localStorage.getItem("token");
-            const ws = new WebSocket(`${WS_URL}?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hbmlzaEBrdW1hcmRha2pzMzIiLCJpZCI6Ijc5ZmExMzZjLWQ4YjUtNDg2Yy05YzJiLWQxZTI4YzE1ODg2ZCIsIm5hbWUiOiJtYXNkZmRmIiwiaWF0IjoxNzUwMzQ0Nzc2fQ.B8EUkQwlxJvCj0-3-VU3Y6oaXioSboN_pigpdRjsL4g`);
+            const token = localStorage.getItem("token");
+            const ws = new WebSocket(`${WS_URL}?token=${token}`);
                 
             ws.onopen=()=>{
                 setSocket(ws);
