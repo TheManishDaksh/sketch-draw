@@ -6,7 +6,9 @@ export function middleware(req: Request, res: Response, next: NextFunction) {
     const token = req.headers["authorization"];
     
     if (!token) {
-        res.json("token not found")
+        res.status(402).json({
+            message : "token not found"
+        })
         return;
     }
     
@@ -19,6 +21,6 @@ export function middleware(req: Request, res: Response, next: NextFunction) {
             next();
         }
     } catch (error) {
-        res.json({ message: "token is not valid" })
+        res.status(403).json({ message: "token is not valid" })
     }
 }

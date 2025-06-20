@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Button, Input } from "../../../../packages/ui/src";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { HTTP_BACKEND } from "../../config";
+import { userSignin } from "@repo/zod/types";
 
 export default function Signin(){
 
@@ -12,8 +15,32 @@ export default function Signin(){
     const [ roomName, setRoomName] = useState("");
     const router = useRouter();
 
-    function handleLogin(){
-
+    async function handleLogin(){
+        const parsedData = userSignin.safeParse({
+                username : email,
+                password
+        })
+        if(!parsedData.success){
+            console.log("input error");
+            return;
+        }
+        try{
+            const response = await axios.post(`${HTTP_BACKEND}/signin`,{
+            username : email,
+            password
+        })
+        if(!response){
+            console.log("server error");
+            return;
+        }
+        const token = response.data.token;
+        const userId = response.data.userId;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+        }catch(error:any){
+            console.log(error.data.message);
+            return;
+        }
     }
     return (
         <div className="bg-slate-100 h-screen w-screen flex justify-center items-center">

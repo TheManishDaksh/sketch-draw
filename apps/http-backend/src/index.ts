@@ -26,7 +26,7 @@ app.post("/signup", async (req: Request, res: Response) => {
             }
         })
         if (existingUser) {
-            res.json({ message: "user already exist" })
+            res.status(401).json({ message: "user already exist" })
             return;
         }
         const hashedPassword = await bcrypt.hash(parsedData.data?.password ?? "", 10)
@@ -48,7 +48,7 @@ app.post("/signup", async (req: Request, res: Response) => {
 app.post("/signin", async (req: Request, res: Response) => {
     const parsedData = userSignin.safeParse(req.body);
     if (!parsedData.success) {
-        res.status(493).json({
+        res.status(402).json({
             message: "input error"
         })
         return;
@@ -61,14 +61,14 @@ app.post("/signin", async (req: Request, res: Response) => {
             }
         })
         if (!user) {
-            res.json({
+            res.status(401).json({
                 message: "user not found"
             })
             return;
         }
         const validatePassword = await bcrypt.compare(parsedData.data?.password ?? "", user.password)
         if (!validatePassword) {
-            res.json({
+            res.status(403).json({
                 message: "password does'nt match"
             })
         }
@@ -82,8 +82,8 @@ app.post("/signin", async (req: Request, res: Response) => {
             token
         })
     } catch (error: any) {
-        res.status(403).json({
-            message: "user can't signin"
+        res.status(411).json({
+            message: "server issue"
         })
     }
 })
@@ -91,7 +91,7 @@ app.post("/signin", async (req: Request, res: Response) => {
 app.post("/room", middleware, async (req, res) => {
     const parsedData = createRoom.safeParse(req.body);
     if (!parsedData.success) {
-        res.status(411).json({
+        res.status(401).json({
             messages: "input error"
         })
         return;
@@ -106,7 +106,9 @@ app.post("/room", middleware, async (req, res) => {
             }
         })
         if(!user){
-            console.log("user not found");
+            res.status(402).json({
+                message : "user not found"
+            })
             return;
         }
         const room = await prismaClient.room.create({
@@ -135,14 +137,13 @@ app.get("/room/:slug", async (req,res)=>{
             }
         })
         if(!room){
-            console.log("room does not exist");
+            res.status(402).json({message : "room does not exist"});
             return;
         }
         res.json({
             room
         })
     }catch(error:any){
-        console.log("error : " + error);
         res.status(403).json({
             message : "this slug does not match any roomw"
         })
@@ -163,7 +164,9 @@ app.get("/chat/:roomId", async (req, res)=>{
             take : 100
         })
         if(!messages){
-            console.log("chat not found");
+            res.status(402).json({
+                message : "chats not found"
+            })
             return;
         }
         res.json({
