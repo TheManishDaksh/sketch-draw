@@ -10,9 +10,9 @@ import { HTTP_BACKEND } from "../../config";
 
 export default function Signup(){
 
-    const [name, setName] = useState("");
-    const [ email, setEmail] = useState("");
-    const [ password, setPassword] = useState("");
+    const [name, setName] = useState<string>("");
+    const [ email, setEmail] = useState<string>("");
+    const [ password, setPassword] = useState<string>("");
     const [ errors, setErrors] = useState<{[key : string]: string }>({})
     const router = useRouter();
 
@@ -43,8 +43,12 @@ export default function Signup(){
                 console.log("server error");
                 return;
             }
+            console.log("user signup");
+            router.push("/signin");
         }catch(error:any){
-            console.log("server error");
+            if(error.response.status === 403){
+                console.log("be zod error");
+            }
             return;
         }
     }

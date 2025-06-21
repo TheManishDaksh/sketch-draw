@@ -34,7 +34,6 @@ export default function Signin() {
 } else {
   setErrors({});
 }
-
 if (!parsedRoom.success) {
   const fieldError: { [key: string]: string } = {};
   parsedRoom.error.issues.forEach(issue => {
@@ -56,23 +55,29 @@ if (!parsedData.success || !parsedRoom.success) return;
         console.log("server error");
         return;
       }
+      alert("user signin");
+            const token = response.data.token;
+      localStorage.setItem("token", token);
       try {
         const room = await axios.post(`${HTTP_BACKEND}/room`, {
-          name,
+          slug : roomName,
           adminId: response.data.userId,
-        });
+        },{
+        headers : {
+            Authorization : localStorage.getItem("token")
+        }});
         if (!room) {
           console.log("server error");
           return;
         }
         const roomId = room.data.roomId;
         router.push(`/canvas/${roomId}`);
+        alert("room created")
       } catch (error: any) {
         console.log("server error in creating room");
         return;
       }
-      const token = response.data.token;
-      localStorage.setItem("token", token);
+
     } catch (error: any) {
       console.log(error.data.message);
       return;

@@ -14,7 +14,7 @@ app.use(cors());
 app.post("/signup", async (req: Request, res: Response) => {
     const parsedData = userSignup.safeParse(req.body);
     if (!parsedData.success) {
-        res.status(493).json({
+        res.status(403).json({
             message: "input error"
         })
     }
@@ -39,7 +39,7 @@ app.post("/signup", async (req: Request, res: Response) => {
         })
         res.json({ userId: user.id })
     } catch (error: any) {
-        res.status(403).json({
+        res.status(411  ).json({
             message: "user can't create"
         })
     }
