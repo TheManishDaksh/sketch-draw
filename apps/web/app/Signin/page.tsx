@@ -22,7 +22,7 @@ export default function Signin() {
       password,
     });
     const parsedRoom = createRoom.safeParse({
-      name : roomName,
+      slug : roomName,
     });
     if (!parsedData.success) {
   const fieldError: { [key: string]: string } = {};
@@ -43,7 +43,7 @@ if (!parsedRoom.success) {
   setRoomErrors(fieldError);
 } else {
   setRoomErrors({});
-}
+} 
 
 if (!parsedData.success || !parsedRoom.success) return;
     try {
@@ -61,7 +61,6 @@ if (!parsedData.success || !parsedRoom.success) return;
       try {
         const room = await axios.post(`${HTTP_BACKEND}/room`, {
           slug : roomName,
-          adminId: response.data.userId,
         },{
         headers : {
             Authorization : localStorage.getItem("token")
@@ -79,7 +78,7 @@ if (!parsedData.success || !parsedRoom.success) return;
       }
 
     } catch (error: any) {
-      console.log(error.data.message);
+      console.log(error.response.data.message || "server error in singin");
       return;
     }
   }

@@ -1,4 +1,5 @@
     "use client"
+    
     import { useEffect, useState } from "react"
     import { WS_URL } from "../config"
     import { Canvas } from "./"

@@ -52,7 +52,7 @@ app.post("/signin", async (req: Request, res: Response) => {
             message: "input error"
         })
         return;
-    }
+    }   
 
     try {
         const user = await prismaClient.user.findFirst({
@@ -100,20 +100,10 @@ app.post("/room", middleware, async (req, res) => {
     const userId = req.userId;
     
     try {
-        const user = await prismaClient.user.findUnique({
-            where : {
-                id: userId
-            }
-        })
-        if(!user){
-            res.status(402).json({
-                message : "user not found"
-            })
-            return;
-        }
         const room = await prismaClient.room.create({
             data: {
-                slug: parsedData.data?.name,
+                //@ts-ignore
+                slug: parsedData.data?.slug,
                 adminId: userId
             }
         })

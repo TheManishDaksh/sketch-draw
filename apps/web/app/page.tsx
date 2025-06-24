@@ -29,6 +29,15 @@ const CollabDrawLanding = () => {
   ];
 
   const router = useRouter();
+
+  function handleSignin(){
+    // const token = localStorage.getItem("token");
+    // if(!token){
+    //   router.push("/signin")
+    // }
+    // router.push("/createroom")
+    router.push("/signin")
+  }
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Header */}
@@ -80,7 +89,7 @@ const CollabDrawLanding = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-blue-600 text-white px-3 py-2 sm:px-4 text-sm sm:text-base rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
-                onClick={() => router.push("/signin")}
+                onClick={handleSignin}
               >
                 Go to app
               </motion.button>
@@ -105,14 +114,14 @@ const CollabDrawLanding = () => {
               Collaborative whiteboarding made easy
             </p>
             <p className="text-sm sm:text-base text-gray-500 mb-6 sm:mb-8 px-4">
-              Create Shaopes, Brainstorm Ideas and much more
+              Create Shapes, Brainstorm Ideas and much more
             </p>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
-              onClick={() => router.push("/signin")}
+              onClick={handleSignin}
             >
               Go to app
             </motion.button>

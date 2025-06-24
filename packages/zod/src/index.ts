@@ -12,5 +12,5 @@ export const userSignin = z.object({
 })
 
 export const createRoom = z.object({
-    name : z.string().min(3).max(20,{message : "room name should be min 3 words"})
+    slug : z.string().min(3).max(20,{message : "room name should be min 3 words"})
 })
