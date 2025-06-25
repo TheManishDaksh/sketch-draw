@@ -10,7 +10,7 @@ type Shape = {
   type : "circle";
   centerX : number;
   centerY : number;
-  radius : number;
+  radius : number; 
 }
 
 export default async function InitDraw(canvas: HTMLCanvasElement, roomId: string, socket : WebSocket) {
@@ -130,7 +130,7 @@ function clearCanvas(
             ctx.stroke();
             ctx.closePath();                
         }
-  });
+  }); 
 }
 
 
