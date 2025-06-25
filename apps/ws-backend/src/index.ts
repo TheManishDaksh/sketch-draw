@@ -35,9 +35,10 @@ wss.on('connection', function connection(ws, request) {
     return;
   }
   const userId = validate.id;
-
+  
   if (userId === null) {
-    ws.close(); 1
+    ws.close();
+    console.log("connection close");
     return;
   }
   users.push({

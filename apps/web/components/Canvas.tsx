@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Game } from "../draw/Game";
+import { Topbar } from "./Topbar";
 
 export type Tool = "circle" | "rect" | "pencil"
 
@@ -32,6 +33,7 @@ export default function Canvas({roomId, socket}:{roomId : string, socket : WebSo
       </div>
       <div>
         <canvas ref={canvasRef} width={1240} height={520} style={{border:'1px solid white'}}></canvas>
+        <Topbar selectedTool={selectedTool} setSelectedTool={setSelectedTool}/>
       </div>
     </div>
   )
