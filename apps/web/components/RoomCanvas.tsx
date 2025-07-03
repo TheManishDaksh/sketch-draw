@@ -24,11 +24,11 @@
             ws.onerror=(error)=>{
                 console.log("Error : "+ error);
             }
-            if(ws.readyState == WebSocket.OPEN){
-                console.log("connection is open");
+
+            ws.onclose=()=>{
+                console.log("connection lost");
                 return;
             }
-            console.log("connection lost");
             
             }catch(error){
                 console.log("error is : " + error);
