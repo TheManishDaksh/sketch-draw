@@ -36,7 +36,7 @@ const CollabDrawLanding = () => {
     //   router.push("/signin")
     // }
     // router.push("/createroom")
-    router.push("/signin")
+    router.push("/Signin")
   }
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">

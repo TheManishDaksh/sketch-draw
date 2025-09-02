@@ -44,7 +44,7 @@ export default function Signup(){
                 return;
             }
             console.log("user signup");
-            router.push("/signin");
+            router.push("/Signin");
         }catch(error:any){
             if(error.response.status === 403){
                 console.log("be zod error");
@@ -97,7 +97,7 @@ export default function Signup(){
             </div>
             <div className="flex text-sm">
                 <p>Already have an account?</p>
-                <span onClick={()=>router.push("/signin")} 
+                <span onClick={()=>router.push("/Signin")} 
                 className="underline font-semibold cursor-pointer hover:text-blue-600 transition-all duration-200">Signin</span>
             </div>
         </div>

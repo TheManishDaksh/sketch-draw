@@ -139,7 +139,7 @@ if (!parsedData.success || !parsedRoom.success) return;
         <div className="flex text-sm">
           <p>Don't have an account?</p>
           <span
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/Signup")}
             className="underline font-semibold cursor-pointer hover:text-blue-600 transition-all duration-200"
           >
             Signup
